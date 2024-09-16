@@ -11,7 +11,6 @@ export default async function handleGoogleSignIn() {
     const token = credential?.accessToken;
     // The signed-in user info.
     const user = result.user;
-    console.log("Successfully signed in:", user);
     // You can add your own logic here, like updating UI or redirecting
   } catch (error: any) {
     // Handle Errors here.

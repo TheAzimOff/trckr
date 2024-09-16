@@ -18,7 +18,6 @@ async function handleEmailRegister(
     await updateProfile(user, {
       displayName: name,
     });
-    console.log("Successfully registered:", user);
     return { success: true, error: "" };
   } catch (error: any) {
     const errorCode = error.code;

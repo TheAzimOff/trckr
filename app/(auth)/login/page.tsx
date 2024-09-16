@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React from "react";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";

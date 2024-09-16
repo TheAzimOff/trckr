@@ -23,10 +23,10 @@ export default function SignUp() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
-  const confirmPassword = React.useRef<HTMLInputElement>(null);
-  const nameRef = React.useRef<HTMLInputElement>(null);
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [confirmPassword, setConfirmPassword] = React.useState<string>("");
+  const [name, setName] = React.useState<string>("");
 
   React.useEffect(() => {
     onAuthStateChanged(firebaseAuth, user => {
@@ -37,10 +37,7 @@ export default function SignUp() {
   }, [router]);
 
   const validateHandler = () => {
-    const validation = validatePassword(
-      passwordRef.current?.value!,
-      confirmPassword.current?.value!
-    );
+    const validation = validatePassword(password, confirmPassword);
     if (!validation.isValid) {
       toast({
         variant: "destructive",
@@ -67,11 +64,7 @@ export default function SignUp() {
         if (!validation) {
           return;
         }
-        const result = await handleEmailRegister(
-          emailRef.current?.value!,
-          passwordRef.current?.value!,
-          nameRef.current?.value!
-        );
+        const result = await handleEmailRegister(email, password, name);
         if (result.success) {
           toast({
             title: "Login Successful",
@@ -93,12 +86,19 @@ export default function SignUp() {
           <div className='grid gap-4'>
             <div className='grid gap-2'>
               <Label htmlFor='first-name'>Name</Label>
-              <Input ref={nameRef} id='first-name' placeholder='Max' required />
+              <Input
+                onChange={e => setName(e.target.value)}
+                value={name}
+                id='first-name'
+                placeholder='Max'
+                required
+              />
             </div>
             <div className='grid gap-2'>
               <Label htmlFor='email'>Email</Label>
               <Input
-                ref={emailRef}
+                onChange={e => setEmail(e.target.value)}
+                value={email}
                 id='email'
                 type='email'
                 placeholder='m@example.com'
@@ -107,12 +107,18 @@ export default function SignUp() {
             </div>
             <div className='grid gap-2'>
               <Label htmlFor='password'>Password</Label>
-              <Input id='password' type='password' ref={passwordRef} />
+              <Input
+                id='password'
+                type='password'
+                onChange={e => setPassword(e.target.value)}
+                value={password}
+              />
             </div>
             <div className='grid gap-2'>
               <Label htmlFor='confirmPassword'>Confirm Password</Label>
               <Input
-                ref={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
                 id='confirmPassword'
                 type='password'
               />
